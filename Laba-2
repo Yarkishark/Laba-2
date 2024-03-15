@@ -11,41 +11,24 @@ import re
 
 d_db = {'0':'ноль', '1':'один'}
 
-def process_binary_number(number):
-    number_str = str(number)
-    start_idx = 0
-    for i in range(len(number_str) - 1):
-        if number_str[i] == '1' and number_str[i + 1] == '1':
-            start_idx = i
-            break
+def process_binary_number(a):
+    binary_str = str(a)
+    match = re.search(r'11', binary_str)
+    start_idx = match.start() if match else 0
 
-    output = []
-    for idx, d in enumerate(number_str):
-        if d != '1':
-            output.append(d_db[d])
+    output = [d_db[d] for d in binary_str if d != '1']
 
     print('Число без единиц:', ' '.join(output))
     print(f'Позиция начала серии "11": {start_idx}')
 
-file = open("122.txt", "r")
-while True:
-    a = file.readline().split()
-    if not a:
-        print ("\nФайл 122.txt в директории проекта закончился.")
-        break
-    for j in a:
-        res = re.findall(r'[0-1]*[0-1]',j)
-        if len(res) == 1:
-            if len(j) == len(res[0]) and len(j) < 11:
-                print (res)
-    for val in a:
-        if all('0' <= num_str <= '1' for num_str in val):
-            print('Значение val', val)
-            if int(val) % 2 == 1 and int(val) <= 4096:
-                print(f'Обработка числа: {val}')
-                process_binary_number(val)
-                print('-' * 30)
+with open("122.txt", "r") as file:
+    for line in file:
+        for val in line.split():
+            if re.match(r'^[01]+$', val):
+                if int(val) % 2 != 0 and int(val) <= 4096:
+                    process_binary_number(val)
+                    print('-' * 30)
+                else:
+                    print(f'Не удовлетворяет условиям: {val}, так как оно чётно или превышает 4096 в 10 системе счисления')
             else:
-                print(f'Не удовлетворяет условиям: {a}')
-        else:
-            print(f'Ошибка: Неверный формат числа')
+                print(f'Ошибка: Неверный формат числа: {val}')
