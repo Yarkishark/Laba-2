@@ -24,11 +24,10 @@ def process_binary_number(a):
 with open("122.txt", "r") as file:
     for line in file:
         for val in line.split():
-            if re.match(r'^[01]+$', val):
-                if int(val) % 2 != 0 and int(val) <= 4096:
-                    process_binary_number(val)
-                    print('-' * 30)
-                else:
-                    print(f'Не удовлетворяет условиям: {val}, так как оно чётно или превышает 4096 в 10 системе счисления')
+            reg_number = re.fullmatch(r'^(1[01]{0,10}1|0|10+1|11+0|1)+$', val)
+            if reg_number and int(val) % 2 != 0:
+                process_binary_number(val)
+                print('-' * 30)    
             else:
                 print(f'Ошибка: Неверный формат числа: {val}')
+                print(f'Не удовлетворяет условиям: {val}, так как оно чётно или превышает 4096 в 10 системе счисления')
