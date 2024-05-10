@@ -15,11 +15,16 @@ d_db = {'0':'ноль', '1':'один'}
 
 def process_binary_number(a):
     binary_str = str(a)
+    
+    match = re.search(r'11{2,}', binary_str)
+    if match:
+        print(f'Ошибка: Число {a} нечётное, но в нём больше одной серии "11"')
+        return
+    
     match = re.search(r'11', binary_str)
     start_idx = match.start() + 1 if match else 0
-
+    
     output = [d_db[d] for d in binary_str if d != '1']
-
     print('Число без единиц:', ' '.join(output))
     print(f'Позиция начала серии "11": {start_idx}')
 
@@ -32,4 +37,4 @@ with open("122.txt", "r") as file:
                 print('-' * 30)    
             else:
                 print(f'Ошибка: Неверный формат числа: {val}')
-                print(f'Не удовлетворяет условиям: {val}, так как оно чётно или превышает 4096 в 10 системе счисления')
+                print(f'Число {val}, не удовлетворяет условиям, так как оно чётно или превышает 4096 в 10 системе счисления')
