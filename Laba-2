@@ -21,10 +21,10 @@ def process_binary_number(a):
         print('Число без единиц:', ' '.join(output))
         print(f'Позиция начала серии "11": {start_idx}')
     if not match:
-        print(f'Ошибка: Число не соответствует условиям')
+        print(f'Ошибка: Число не соответствует условиям: {val}')
         return
 
-with open("122.txt", "r") as file:
+with open("text.txt", "r") as file:
     for line in file:
         for val in line.split():
             if re.fullmatch(r'[01]+', val):
