@@ -13,18 +13,18 @@ import re
 
 d_db = {'0': 'ноль', '1': 'один'}
 
-def process_binary_number(a):
-    match = re.fullmatch(r'(?:(?!11).)*1(?:(?!11).)*0*1', a)
+def process_binary_number(val):
+    match = re.fullmatch(r'(?:(?!11).)*1(?:(?!11).)*0*1', val)
     if match:
-        output = [d_db[d] for d in a if d != '1']
-        start_idx = a.find('11') + 1 if a.find('11') != -1 else -1
+        output = [d_db[d] for d in val if d != '1']
+        start_idx = val.find('11') + 1
         print('Число без единиц:', ' '.join(output))
         print(f'Позиция начала серии "11": {start_idx}')
     if not match:
         print(f'Ошибка: Число не соответствует условиям: {val}')
         return
 
-with open("text.txt", "r") as file:
+with open("122.txt", "r") as file:
     for line in file:
         for val in line.split():
             if re.fullmatch(r'[01]+', val):
